@@ -12,8 +12,13 @@ app.Run(async (HttpContext context) =>
     context.Response.Headers["Server"] = "My server";
     context.Response.Headers["Content-Type"] = "text/html";
 
+    string path = context.Request.Path;
+
+
     await context.Response.WriteAsync("<h1>Hello</h1>");
     await context.Response.WriteAsync("<h2>World</h2>");
+    await context.Response.WriteAsync($"<p>{path}</p>");
+
 
 });
 
