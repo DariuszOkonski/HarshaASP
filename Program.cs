@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Primitives;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
@@ -8,18 +10,16 @@ var app = builder.Build();
 
 app.Run(async (HttpContext context) =>
 {
-    context.Response.Headers["Content-Type"] = "text/html";
+    System.IO.StreamReader reader = new System.IO.StreamReader(context.Request.Body);
 
+    string body = await reader.ReadToEndAsync();
 
-    if (context.Request.Headers.ContainsKey("AuthorizationKey"))
+    Dictionary<string, StringValues> queryDict = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(body);
+
+    if (queryDict.ContainsKey("firstName"))
     {
-        string authorizationKey = context.Request.Headers["AuthorizationKey"];
-        await context.Response.WriteAsync($"<h1>{authorizationKey}</h1>");
+        string firstName = queryDict["firstName"][0];
     }
-
-
-
-
 });
 
 app.Run();
