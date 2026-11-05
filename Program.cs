@@ -4,13 +4,19 @@ var app = builder.Build();
 
 app.Use(async (HttpContext context, RequestDelegate next) =>
 {
-    await context.Response.WriteAsync("Hello");
+    await context.Response.WriteAsync("Hello-1\n");
+    await next(context);
+});
+
+app.Use(async (HttpContext context, RequestDelegate next) =>
+{
+    await context.Response.WriteAsync("Hello-2\n");
     await next(context);
 });
 
 app.Run(async (HttpContext context) =>
 {
-    await context.Response.WriteAsync("Hello Again");
+    await context.Response.WriteAsync("Hello-3\n");
 });
 
 app.Run();
