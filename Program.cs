@@ -8,7 +8,7 @@ app.Use(async (HttpContext context, RequestDelegate next) =>
     await next(context);
 });
 
-app.Use(async (HttpContext context, RequestDelegate next) =>
+app.Use(async (context, next) =>
 {
     await context.Response.WriteAsync("Hello-2\n");
     await next(context);
