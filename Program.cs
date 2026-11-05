@@ -19,6 +19,8 @@ app.Run(async (HttpContext context) =>
     if (queryDict.ContainsKey("firstName"))
     {
         string firstName = queryDict["firstName"][0];
+
+        await context.Response.WriteAsync(firstName);
     }
 });
 
