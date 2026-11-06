@@ -20,7 +20,8 @@ app.Use(async (context, next) =>
     await context.Response.WriteAsync("Hello-2 Finish\n");
 });
 
-app.UseMiddleware<MyCustomMiddleware>();
+//app.UseMiddleware<MyCustomMiddleware>();
+app.UseMyCustomMiddleware();
 
 app.Run(async (HttpContext context) =>
 {
