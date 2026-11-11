@@ -17,11 +17,19 @@ app.Map("employee/profile/{employeename=scott}", async context =>
     await context.Response.WriteAsync($"response - {employeename}");
 });
 
-app.Map("products/details/{id=1}", async context =>
+app.Map("products/details/{id?}", async context =>
 {
-    int? id = Convert.ToInt32(context.Request.RouteValues["id"]);
+    if (context.Request.RouteValues.ContainsKey("id"))
+    {
+        int? id = Convert.ToInt32(context.Request.RouteValues["id"]);
+        await context.Response.WriteAsync($"Product details - {id}");
+    }
+    else
+    {
 
-    await context.Response.WriteAsync($"Product details - {id}");
+        await context.Response.WriteAsync("id is not supplied");
+    }
+
 });
 
 app.MapFallback(async context =>
