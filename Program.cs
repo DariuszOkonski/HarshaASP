@@ -10,6 +10,13 @@ app.Map("files/{filename}.{extension}", async context =>
     await context.Response.WriteAsync($"In files - {fileName} - {extension}");
 });
 
+app.Map("employee/profile/{employeename}", async context =>
+{
+    string? employeename = Convert.ToString(context.Request.RouteValues["employeename"]);
+
+    await context.Response.WriteAsync($"response - {employeename}");
+});
+
 app.MapFallback(async context =>
 {
     await context.Response.WriteAsync($"Request received at {context.Request.Path}");
