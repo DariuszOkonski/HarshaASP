@@ -17,6 +17,13 @@ app.Map("employee/profile/{employeename=scott}", async context =>
     await context.Response.WriteAsync($"response - {employeename}");
 });
 
+app.Map("products/details/{id=1}", async context =>
+{
+    int? id = Convert.ToInt32(context.Request.RouteValues["id"]);
+
+    await context.Response.WriteAsync($"Product details - {id}");
+});
+
 app.MapFallback(async context =>
 {
     await context.Response.WriteAsync($"FALLBACK Request received at {context.Request.Path}");
