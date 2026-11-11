@@ -2,14 +2,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-app.MapGet("/map1", async (context) =>
+app.Map("files/{filename}.{extension}", async context =>
 {
-    await context.Response.WriteAsync("In Map 1");
-});
+    string? fileName = Convert.ToString(context.Request.RouteValues["filename"]);
+    string? extension = Convert.ToString(context.Request.RouteValues["extension"]);
 
-app.MapPost("/map2", async (context) =>
-{
-    await context.Response.WriteAsync("In Map 2");
+    await context.Response.WriteAsync($"In files - {fileName} - {extension}");
 });
 
 app.MapFallback(async context =>
