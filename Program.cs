@@ -1,27 +1,46 @@
-using Microsoft.Extensions.Primitives;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-//app.MapGet("/", () => "Hello World!");
-
-//app.MapGet("/home", () => "My Home");
-
-app.Run(async (HttpContext context) =>
+app.Map("files/{filename}.{extension}", async context =>
 {
-    System.IO.StreamReader reader = new System.IO.StreamReader(context.Request.Body);
+    string? fileName = Convert.ToString(context.Request.RouteValues["filename"]);
+    string? extension = Convert.ToString(context.Request.RouteValues["extension"]);
 
-    string body = await reader.ReadToEndAsync();
+    await context.Response.WriteAsync($"In files - {fileName} - {extension}");
+});
 
-    Dictionary<string, StringValues> queryDict = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(body);
+app.Map("employee/profile/{employeename=scott}", async context =>
+{
+    string? employeename = Convert.ToString(context.Request.RouteValues["employeename"]);
 
-    if (queryDict.ContainsKey("firstName"))
+    await context.Response.WriteAsync($"response - {employeename}");
+});
+
+app.Map("products/details/{id:int?}", async context =>
+{
+    if (context.Request.RouteValues.ContainsKey("id"))
     {
-        string firstName = queryDict["firstName"][0];
-
-        await context.Response.WriteAsync(firstName);
+        int? id = Convert.ToInt32(context.Request.RouteValues["id"]);
+        await context.Response.WriteAsync($"Product details - {id}");
     }
+    else
+    {
+        await context.Response.WriteAsync("id is not supplied");
+    }
+
+});
+
+app.Map("daily-digest-report/{reportdate:datetime}", async context =>
+{
+    DateTime reportDate = Convert.ToDateTime(context.Request.RouteValues["reportdate"]);
+
+    await context.Response.WriteAsync($"In daily-digest-report - {reportDate.ToShortDateString()}");
+});
+
+app.MapFallback(async context =>
+{
+    await context.Response.WriteAsync($"FALLBACK Request received at {context.Request.Path}");
 });
 
 app.Run();
