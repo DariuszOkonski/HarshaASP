@@ -17,7 +17,7 @@ app.Map("employee/profile/{employeename=scott}", async context =>
     await context.Response.WriteAsync($"response - {employeename}");
 });
 
-app.Map("products/details/{id?}", async context =>
+app.Map("products/details/{id:int?}", async context =>
 {
     if (context.Request.RouteValues.ContainsKey("id"))
     {
@@ -26,10 +26,16 @@ app.Map("products/details/{id?}", async context =>
     }
     else
     {
-
         await context.Response.WriteAsync("id is not supplied");
     }
 
+});
+
+app.Map("daily-digest-report/{reportdate:datetime}", async context =>
+{
+    DateTime reportDate = Convert.ToDateTime(context.Request.RouteValues["reportdate"]);
+
+    await context.Response.WriteAsync($"In daily-digest-report - {reportDate.ToShortDateString()}");
 });
 
 app.MapFallback(async context =>
