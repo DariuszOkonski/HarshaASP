@@ -10,14 +10,14 @@ app.Map("files/{filename}.{extension}", async context =>
     await context.Response.WriteAsync($"In files - {fileName} - {extension}");
 });
 
-app.Map("employee/profile/{EmployeeName:length(3,7)=scott}", async context =>
+app.Map("employee/profile/{EmployeeName:length(3,7):alpha=scott}", async context =>
 {
     string? employeeName = Convert.ToString(context.Request.RouteValues["EmployeeName"]);
 
     await context.Response.WriteAsync($"response - {employeeName}");
 });
 
-app.Map("products/details/{id:int?}", async context =>
+app.Map("products/details/{id:int?:min(1):max(100)}", async context =>
 {
     if (context.Request.RouteValues.ContainsKey("id"))
     {
@@ -45,9 +45,17 @@ app.Map("cities/{cityid:guid}", async (context) =>
     await context.Response.WriteAsync($"City information - {cityId}");
 });
 
+app.Map("sales-report/{year:int:min(1900)}/{month:regex(^(apr|jul|oct|jan)$)}", async (context) =>
+{
+    int year = Convert.ToInt32(context.Request.RouteValues["year"]);
+    string? month = Convert.ToString(context.Request.RouteValues["month"]);
+
+    await context.Response.WriteAsync($"sales report - {year} = {month}");
+});
+
 app.MapFallback(async context =>
 {
-    await context.Response.WriteAsync($"FALLBACK Request received at {context.Request.Path}");
+    await context.Response.WriteAsync($"FALLBACK No route matched at {context.Request.Path}");
 });
 
 app.Run();
