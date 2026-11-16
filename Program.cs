@@ -1,4 +1,11 @@
+using HarshaASP.CustomConstraints;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRouting(options =>
+{
+    options.ConstraintMap.Add("months", typeof(MonthsCustomConstraint));
+});
 
 var app = builder.Build();
 
@@ -45,12 +52,20 @@ app.Map("cities/{cityid:guid}", async (context) =>
     await context.Response.WriteAsync($"City information - {cityId}");
 });
 
-app.Map("sales-report/{year:int:min(1900)}/{month:regex(^(apr|jul|oct|jan)$)}", async (context) =>
+app.Map("sales-report/{year:int:min(1900)}/{month:months}", async (context) =>
 {
     int year = Convert.ToInt32(context.Request.RouteValues["year"]);
     string? month = Convert.ToString(context.Request.RouteValues["month"]);
 
-    await context.Response.WriteAsync($"sales report - {year} = {month}");
+    if (month == "apr" || month == "jul" || month == "oct" || month == "jan")
+    {
+        await context.Response.WriteAsync($"sales report - {year} = {month}");
+    }
+    else
+    {
+        await context.Response.WriteAsync($"{month} month is not allowed for sales report");
+    }
+
 });
 
 app.MapFallback(async context =>
