@@ -10,11 +10,11 @@ app.Map("files/{filename}.{extension}", async context =>
     await context.Response.WriteAsync($"In files - {fileName} - {extension}");
 });
 
-app.Map("employee/profile/{employeename=scott}", async context =>
+app.Map("employee/profile/{EmployeeName:length(3,7)=scott}", async context =>
 {
-    string? employeename = Convert.ToString(context.Request.RouteValues["employeename"]);
+    string? employeeName = Convert.ToString(context.Request.RouteValues["EmployeeName"]);
 
-    await context.Response.WriteAsync($"response - {employeename}");
+    await context.Response.WriteAsync($"response - {employeeName}");
 });
 
 app.Map("products/details/{id:int?}", async context =>
