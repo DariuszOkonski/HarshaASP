@@ -24,11 +24,11 @@ app.Map("employee/profile/{EmployeeName:length(3,7):alpha=scott}", async context
     await context.Response.WriteAsync($"response - {employeeName}");
 });
 
-app.Map("products/details/{id:int?:min(1):max(100)}", async context =>
+app.Map("products/details/{id:int:min(1):max(100)}", async context =>
 {
     if (context.Request.RouteValues.ContainsKey("id"))
     {
-        int? id = Convert.ToInt32(context.Request.RouteValues["id"]);
+        int id = Convert.ToInt32(context.Request.RouteValues["id"]);
         await context.Response.WriteAsync($"Product details - {id}");
     }
     else
