@@ -10,7 +10,7 @@ namespace HarshaASP.Controllers
     //    }
     //}
 
-    [Controller]
+    //[Controller]
     public class HomeController : Controller
     {
         [Route("home")]
@@ -23,7 +23,9 @@ namespace HarshaASP.Controllers
             //    ContentType = "text/plain"
             //};
 
-            return Content("Hello from Index", "text/plain");
+            //return Content("Hello from Index", "text/plain");
+
+            return Content("<h1>Welcome</h1><h2>Hello from Index</h2>", "text/html");
         }
 
         [Route("about")]
