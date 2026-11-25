@@ -11,17 +11,19 @@ namespace HarshaASP.Controllers
     //}
 
     [Controller]
-    public class HomeController
+    public class HomeController : Controller
     {
         [Route("home")]
         [Route("/")]
         public ContentResult Index()
         {
-            return new ContentResult()
-            {
-                Content = "Hello from Index",
-                ContentType = "application/text"
-            };
+            //return new ContentResult()
+            //{
+            //    Content = "Hello from Index",
+            //    ContentType = "text/plain"
+            //};
+
+            return Content("Hello from Index", "text/plain");
         }
 
         [Route("about")]
