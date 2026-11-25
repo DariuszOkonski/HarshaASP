@@ -1,16 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HarshaASP.Controllers.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HarshaASP.Controllers
 {
-    //public class HomeController : Controller
-    //{
-    //    public IActionResult Index()
-    //    {
-    //        return View();
-    //    }
-    //}
 
-    //[Controller]
     public class HomeController : Controller
     {
         [Route("home")]
@@ -29,9 +22,23 @@ namespace HarshaASP.Controllers
         }
 
         [Route("about")]
-        public string About()
+        public ContentResult About()
         {
-            return "Hello from About";
+            return Content("Hello from about", "text/plain");
+        }
+
+        [Route("person")]
+        public JsonResult Person()
+        {
+            Person peson = new Person()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "James",
+                LastName = "Smith",
+                Age = 25
+            };
+
+            return new JsonResult(peson);
         }
 
         [Route("contact-us/{mobile:regex(^\\d{{10}}$)}")]
