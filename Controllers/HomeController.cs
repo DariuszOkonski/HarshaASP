@@ -30,7 +30,7 @@ namespace HarshaASP.Controllers
         [Route("person")]
         public JsonResult Person()
         {
-            Person peson = new Person()
+            Person person = new Person()
             {
                 Id = Guid.NewGuid(),
                 FirstName = "James",
@@ -38,7 +38,8 @@ namespace HarshaASP.Controllers
                 Age = 25
             };
 
-            return new JsonResult(peson);
+            //return new JsonResult(peson);
+            return Json(person);
         }
 
         [Route("contact-us/{mobile:regex(^\\d{{10}}$)}")]
