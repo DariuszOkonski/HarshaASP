@@ -15,9 +15,13 @@ namespace HarshaASP.Controllers
     {
         [Route("home")]
         [Route("/")]
-        public string Index()
+        public ContentResult Index()
         {
-            return "Hello from Index";
+            return new ContentResult()
+            {
+                Content = "Hello from Index",
+                ContentType = "application/text"
+            };
         }
 
         [Route("about")]
