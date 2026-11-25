@@ -10,6 +10,7 @@ namespace HarshaASP.Controllers
     //    }
     //}
 
+    [Controller]
     public class HomeController
     {
         [Route("home")]
