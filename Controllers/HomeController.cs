@@ -42,6 +42,12 @@ namespace HarshaASP.Controllers
             return Json(person);
         }
 
+        [Route("file-download")]
+        public VirtualFileResult FileDownload()
+        {
+            return new VirtualFileResult("/Sample.pdf", "application/pdf");
+        }
+
         [Route("contact-us/{mobile:regex(^\\d{{10}}$)}")]
         public string Contact()
         {
