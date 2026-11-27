@@ -48,8 +48,14 @@ namespace HarshaASP.Controllers
             return new VirtualFileResult("/Sample.pdf", "application/pdf");
         }
 
-        [Route("file-donwload2")]
+        [Route("file-download2")]
         public PhysicalFileResult FileDownload2()
+        {
+            return new PhysicalFileResult(@"c:/somethin.pdf", "application/pdf");
+        }
+
+        [Route("file-download3")]
+        public IActionResult FileDonwload3()
         {
             return new PhysicalFileResult(@"c:/somethin.pdf", "application/pdf");
         }
